@@ -19,7 +19,7 @@ export const AdminCourses = () => {
             const response = await api.get('/courses');
             setCourses(response.data);
         } catch (err) {
-            setError('Failed to load courses');
+            setError('Failed to load courses',err);
         } finally {
             setLoading(false);
         }

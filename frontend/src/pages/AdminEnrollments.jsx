@@ -28,13 +28,14 @@ export const AdminEnrollments = () => {
                     }));
                     allEnrollments.push(...courseEnrollments);
                 } catch (err) {
-                    // Course might have no enrollments
+                    // Course might have no enrollments s
+                    setError(err);
                 }
             }
             
             setEnrollments(allEnrollments);
         } catch (err) {
-            setError('Failed to load enrollments');
+            setError('Failed to load enrollments',err);
         } finally {
             setLoading(false);
         }
