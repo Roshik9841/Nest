@@ -22,7 +22,7 @@ export const EditCourse = () => {
                     thumbnailUrl: res.data.thumbnailUrl || '',
                 });
             } catch (err) {
-                setError('Failed to load course');
+                setError('Failed to load course',err);
             } finally {
                 setLoading(false);
             }
@@ -98,15 +98,13 @@ export const EditCourse = () => {
                     <div>
                         <label className="font-semibold mb-1 block">Video URL (optional)</label>
                         <input
-                            type="url"
+                            type="text"
                             value={form.videoUrl}
                             onChange={(e) => handleChange('videoUrl', e.target.value)}
-                            placeholder="https://example.com/video.mp4 or /videos/my-folder/video.mp4"
+                            placeholder="/videos/my-video.mp4 or https://example.com/video.mp4"
                             className="border rounded-lg w-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
-                        <p className="text-xs text-gray-500 mt-1">
-                            You can host videos in your own folder (e.g. frontend/public/videos/...) and reference them here.
-                        </p>
+                      
                     </div>
 
                     <div>
@@ -115,7 +113,7 @@ export const EditCourse = () => {
                             type="url"
                             value={form.thumbnailUrl}
                             onChange={(e) => handleChange('thumbnailUrl', e.target.value)}
-                            placeholder="https://example.com/thumbnail.jpg or /videos/thumbs/preview.jpg"
+                         
                             className="border rounded-lg w-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
                     </div>
@@ -141,6 +139,8 @@ export const EditCourse = () => {
         </div>
     );
 };
+
+
 
 
 

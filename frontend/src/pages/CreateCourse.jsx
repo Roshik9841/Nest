@@ -32,7 +32,7 @@ export const CreateCourse = () => {
     return (
         <div>
             <Header />
-            <div className="container mx-auto px-4 py-8 max-w-2xl">
+            <div className=" mx-auto px-4 py-8 max-w-2xl">
                 <h1 className="text-3xl font-bold mb-6">Create Course</h1>
 
                 {error && (
@@ -41,7 +41,7 @@ export const CreateCourse = () => {
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 space-y-4">
+                <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 space-y-5">
                     <div>
                         <label className="font-semibold mb-1 block">Title</label>
                         <input
@@ -67,15 +67,13 @@ export const CreateCourse = () => {
                     <div>
                         <label className="font-semibold mb-1 block">Video URL (optional)</label>
                         <input
-                            type="url"
+                            type="text"
                             value={form.videoUrl}
                             onChange={(e) => handleChange('videoUrl', e.target.value)}
-                            placeholder="https://example.com/video.mp4 or /videos/my-folder/video.mp4"
+                            placeholder="/videos/my-video.mp4 or https://example.com/video.mp4"
                             className="border rounded-lg w-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
-                        <p className="text-xs text-gray-500 mt-1">
-                            You can host videos in your own folder (e.g. frontend/public/videos/...) and reference them here.
-                        </p>
+                      
                     </div>
 
                     <div>
@@ -84,7 +82,7 @@ export const CreateCourse = () => {
                             type="url"
                             value={form.thumbnailUrl}
                             onChange={(e) => handleChange('thumbnailUrl', e.target.value)}
-                            placeholder="https://example.com/thumbnail.jpg or /videos/thumbs/preview.jpg"
+                           
                             className="border rounded-lg w-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
                     </div>

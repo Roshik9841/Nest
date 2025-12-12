@@ -125,11 +125,75 @@ export const AdminCourses = () => {
                 )}
             </div>
             {activeVideo && (
-                <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
-                    <div className="bg-black w-full max-w-3xl rounded-lg overflow-hidden shadow-xl relative">
-                        <video src={activeVideo} controls autoPlay className="w-full h-[60vh] bg-black" />
+                <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4" onClick={() => setActiveVideo(null)}>
+                    <div className="bg-black w-full max-w-3xl rounded-lg overflow-hidden shadow-xl relative" onClick={(e) => e.stopPropagation()}>
+                        {(() => {
+                            // Helper function to convert YouTube URL to embed URL
+                            const getYouTubeEmbedUrl = (url) => {
+                                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+                                const match = url.match(regExp);
+                                const videoId = (match && match[2].length === 11) ? match[2] : null;
+                                if (videoId) {
+                                    return `https://www.youtube.com/embed/${videoId}`;
+                                }
+                                return null;
+                            };
+
+                            // Check if it's a YouTube URL
+                            const isYouTube = activeVideo.includes('youtube.com') || activeVideo.includes('youtu.be');
+                            
+                            if (!activeVideo) {
+                                return <div className="p-8 text-white text-center">No video URL provided</div>;
+                            }
+
+                            if (isYouTube) {
+                                const embedUrl = getYouTubeEmbedUrl(activeVideo);
+                                if (embedUrl) {
+                                    return (
+                                        <iframe
+                                            src={embedUrl}
+                                            className="w-full h-[60vh]"
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                            title="YouTube video player"
+                                        />
+                                    );
+                                } else {
+                                    return <div className="p-8 text-white text-center">Invalid YouTube URL format</div>;
+                                }
+                            }
+
+                            // For regular video files
+                            let videoSrc = activeVideo;
+                            if (!videoSrc.startsWith('http') && !videoSrc.startsWith('/')) {
+                                videoSrc = `/${videoSrc}`;
+                            }
+                            
+                            return (
+                                <video 
+                                    key={videoSrc}
+                                    src={videoSrc}
+                                    controls 
+                                    autoPlay 
+                                    className="w-full h-[60vh] bg-black"
+                                    onError={(e) => {
+                                        const video = e.target;
+                                        console.error('Video load error:', {
+                                            error: video.error,
+                                            code: video.error?.code,
+                                            message: video.error?.message,
+                                            src: videoSrc,
+                                        });
+                                        alert(`Failed to load video from: ${videoSrc}\n\nPlease check:\n1. File exists at that path\n2. File format is supported (MP4, WebM)\n3. For local files, use: /videos/your-file.mp4`);
+                                    }}
+                                >
+                                    Your browser does not support the video tag.
+                                </video>
+                            );
+                        })()}
                         <button
-                            className="absolute top-3 right-3 bg-white/80 hover:bg-white text-black rounded-full w-8 h-8 flex items-center justify-center"
+                            className="absolute top-3 right-3 bg-white/80 hover:bg-white text-black rounded-full w-8 h-8 flex items-center justify-center font-bold z-10"
                             onClick={() => setActiveVideo(null)}
                         >
                             ✕

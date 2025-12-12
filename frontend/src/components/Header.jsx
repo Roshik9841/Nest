@@ -27,7 +27,10 @@ export const Header = () => {
 
     return (
         <header className="bg-gradient-to-b from-[#293143] via-[#373F4F] to-[#444C5C] w-full px-4 py-6 flex justify-between items-center text-white">
-            <p className="text-3xl font-semibold cursor-pointer" onClick={() => navigate('/dashboard')}>
+            <p className="text-3xl font-semibold cursor-pointer" onClick={() => {if(user.role === 'admin'){
+                navigate('/admin-dashboard')
+            }else{
+                navigate('/student-dashboard')}}}>
                 Learning Management System
             </p>
             <div className="flex space-x-7 items-center pr-4">
